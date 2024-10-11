@@ -464,6 +464,7 @@ GameObject:
   - component: {fileID: 514897094}
   - component: {fileID: 514897093}
   - component: {fileID: 514897097}
+  - component: {fileID: 514897098}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -572,6 +573,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0f0960613c0dd549a0730d7549dc24c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previousOffsetFromPortal: {x: 0, y: 0, z: 0}
+--- !u!114 &514897098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514897091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c0e4100a011c454781bb15c43c6d5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  collisionOffset: 0.05
+  movementFilter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
 --- !u!1 &808058621
 GameObject:
   m_ObjectHideFlags: 0
