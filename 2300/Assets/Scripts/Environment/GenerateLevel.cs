@@ -1,15 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class GenerateLevel : MonoBehaviour
 {
+    [System.Serializable]
+    public class DecorationLayer
+    {
+        [Tooltip("What percentage of Tiles do you want this decoration to fill?"), Range(0f, 1f)]
+        public float decorationFill = .125f;
+        public Tilemap decorationMap;
+        public Tile[] decorationTiles;
+    }
+
+    [Header("Portals"), Tooltip("Do you want to use Portals for the map?")]
+    public bool usePortals = true;
+    [Tooltip("Portal Prefab\nRequires PortalController Component to work as expected.")]
+    public GameObject portal;
+
     [Tooltip("How many tiles does this generator create?"), Min(1)]
     public int tiles = 1;
-    [Tooltip("How far in the X direction do you want to generate the map.")]
+    [Tooltip("How far in the X direction do you want to generate the map."), Min(1)]
     public int tileSizeX = 18;
-    [Tooltip("How far in the Y direction do you want to generate the map.")]
+    [Tooltip("How far in the Y direction do you want to generate the map."), Min(1)]
     public int tileSizeY = 10;
 
     [Header("Background")]
@@ -20,32 +32,19 @@ public class GenerateLevel : MonoBehaviour
     public Tilemap collisionPlane;
     public Tile[] collisionTiles;
 
-    [Header("Middleground")]
-    [Range(0, 1)]
-    public float middlegroundFill = .063f;
-    public Tilemap middlegroundMap;
-    public Tile[] middlegroundTiles;
+    [Header("Decoration layers")]
+    public DecorationLayer[] decorationLayers;
 
-    [Header("Detail")]
-    [Range(0, 1)]
-    public float detailFill = .125f;
-    public Tilemap detailMap;
-    public Tile[] detailTiles;
-
-    [Header("Foreground")]
-    [Range(0, 1)]
-    public float ForegroundFill = 0.031f;
-    public Tilemap ForegroundMap;
-    public Tile[] ForegroundTiles;
 
     private void OnValidate()
     {
-        if (backgroundMap == null) Debug.LogError($"Background Map not assigned.");
+        if (!backgroundMap) Debug.LogError($"Background Map not assigned.");
         else if (backgroundTiles.Length < 1) Debug.LogError($"Background Tiles missing atleast one tile to fill with.");
-        if (collisionPlane == null) Debug.LogError($"Collision Plane not assigned.");
-        if (middlegroundMap == null) Debug.LogError($"Middleground Map not assigned.");
-        if (detailMap == null) Debug.LogError($"Detail Map not assigned.");
-        if (ForegroundMap == null) Debug.LogError($"Foreground Map not assigned.");
+        if (!collisionPlane) Debug.LogError($"Collision Plane not assigned.");
+        for (int i = 0; i < decorationLayers.Length; i++) // could use foreach loop but i want to be able to tell the index that has an unassigned map ;)
+            if (decorationLayers[i].decorationMap == null) Debug.LogError($"Decoration Layer at Index {i} has a decoration map Unassigned.");
+
+        if(!portal && usePortals) Debug.LogError($"Portal Prefab not assigned.");
     }
 
     // Start is called before the first frame update
@@ -54,9 +53,8 @@ public class GenerateLevel : MonoBehaviour
         // clear garabge from tilemaps
         backgroundMap.ClearAllTiles();
         collisionPlane.ClearAllTiles();
-        middlegroundMap.ClearAllTiles();
-        detailMap.ClearAllTiles();
-        ForegroundMap.ClearAllTiles();
+        foreach (DecorationLayer l in decorationLayers)
+            l.decorationMap.ClearAllTiles();
 
         // fill background
         var backStart = new Vector3Int(-tileSizeX / 2, -tileSizeY / 2);
@@ -74,18 +72,48 @@ public class GenerateLevel : MonoBehaviour
             RandFill(collisionPlane, collisionTiles, bottomStart, bottomEnd);
         }
 
+        // Fill decoration layers with corresponding Tiles.
+        foreach (DecorationLayer l in decorationLayers)
+            if (l.decorationTiles.Length > 0)
+                RandFill(l.decorationMap, l.decorationTiles, backStart, backEnd, false, l.decorationFill);
 
-        // fill Middle ground if there are tiles
-        if (middlegroundTiles.Length > 0)
-            RandFill(middlegroundMap, middlegroundTiles, backStart, backEnd, false, middlegroundFill);
+        // shift the map left to place the player at dead center of the level.
+        transform.position -= new Vector3(tileSizeX*(tiles-1)/2,transform.position.y,transform.position.z);
 
-        // fill details if there are tiles
-        if (detailTiles.Length > 0)
-            RandFill(detailMap, detailTiles, backStart, backEnd, false, detailFill);
+        // everything past this point is related to portals so if we aren't using them then no need to execute past this point.
+        if (!usePortals) return;
 
-        // fill Foreground if there are tiles
-        if (ForegroundTiles.Length > 0)
-            RandFill(ForegroundMap, ForegroundTiles, backStart, backEnd, false, ForegroundFill);
+        // generate Portals on each end of map.
+        int portalError = 0;
+        var LeftPortal = Instantiate(portal, transform);
+        if (LeftPortal.TryGetComponent<PortalController>(out var lpc))
+        {
+            lpc.LeftPortal = true;
+            lpc.tileSizeX = tileSizeX;
+            lpc.tileSizeY = tileSizeY;
+            lpc.transform.position = new Vector3(transform.position.x + (-tileSizeX / 2),transform.position.y,transform.position.z);
+        }
+        else Debug.LogError($"Portal Prefab ({portal.name}) does not contain PortalController Component!\t{portalError++}");
+        var rightPortal = Instantiate(portal, transform);
+        if (rightPortal.TryGetComponent<PortalController>(out var rpc))
+        {
+            rpc.LeftPortal = false;
+            rpc.tileSizeX = tileSizeX;
+            rpc.tileSizeY = tileSizeY;
+            rpc.transform.position = new Vector3(transform.position.x + (tileSizeX * tiles) - (tileSizeX/2), transform.position.y, transform.position.z);
+        }
+        else Debug.LogError($"Portal Prefab ({portal.name}) does not contain PortalController Component!\t{portalError++}");
+
+        if (portalError > 0) return; // if there are too many errors(>0) with portals there is no point to continue further.
+
+        if (rpc && lpc)
+        {
+            rpc.linkedPortal = lpc;
+            lpc.linkedPortal = rpc;
+        }
+        
+
+
     }
 
     public void BoxFill(Tilemap map, TileBase tile, Vector3Int start, Vector3Int end)
@@ -107,25 +135,7 @@ public class GenerateLevel : MonoBehaviour
         }
     }
 
-    public void RandFill(Tilemap map, TileBase[] tile, Vector3Int start, Vector3Int end)
-    {
-        //Determine directions on X and Y axis
-        var xDir = start.x < end.x ? 1 : -1;
-        var yDir = start.y < end.y ? 1 : -1;
-        //How many tiles on each axis?
-        int xCols = 1 + Mathf.Abs(start.x - end.x);
-        int yCols = 1 + Mathf.Abs(start.y - end.y);
-        //Start painting
-        for (var x = 0; x < xCols; x++)
-        {
-            for (var y = 0; y < yCols; y++)
-            {
-                var tilePos = start + new Vector3Int(x * xDir, y * yDir, 0);
-                map.SetTile(tilePos, tile[Random.Range(0, tile.Length)]);
-            }
-        }
-    }
-    public void RandFill(Tilemap map, TileBase[] tile, Vector3Int start, Vector3Int end, bool completeFill = true, float fillChance = 1f)
+    public void RandFill(Tilemap map, TileBase[] tile, Vector3Int start, Vector3Int end, bool completeFill = true, float fillChance = .5f)
     {
         //Determine directions on X and Y axis
         var xDir = start.x < end.x ? 1 : -1;
