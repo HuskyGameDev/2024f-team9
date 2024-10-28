@@ -41,11 +41,18 @@ public class Controller : MonoBehaviour
         MovePlayer(hdirection, vdirection);
         MoveCursor(mousePos);
 
-        VelocityState();
+        
 
         Vector2 lookDir = mousePos - rb.position;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = angle;
+        Vector3 eulerAngles = rb.transform.rotation.eulerAngles;
+        float angX = eulerAngles.x;
+        float angY = eulerAngles.y;
+        float angle = 0;
+        Debug.Log(angX);
+        Debug.Log(angY);
+        //float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+        //rb.rotation = angle;
+        AngleState(angle);
 
         
     }
@@ -53,7 +60,6 @@ public class Controller : MonoBehaviour
     void MovePlayer(float h, float v) 
     {
          Vector2 targetVelocity = new Vector2(h * speed, v * speed);
-         
          rb.velocity = new Vector2(targetVelocity.x, targetVelocity.y); 
 
     }
@@ -65,31 +71,16 @@ public class Controller : MonoBehaviour
 
    
 
-    private void VelocityState()
+    private void AngleState(float angle)
     {
-        switch (rb.velocity.x) 
-        {
-            case -5:
-                state = State.runl;
-                break;
-            case 5:
-                state = State.runr;
-                break;
+        if (angle <= 145 && angle >=35) {
+            state = State.runu;
         }
-
-        switch (rb.velocity.y)
-        {
-            case 5:
-                state = State.runu;
-                break;
-            case -5:
-                state = State.rund;
-                break;
+        if (angle <=35 && angle >= -35) {
+            state = State.runl;
         }
-
-        if (rb.velocity.y == 0 && rb.velocity.x == 0) {
-            state = State.idle;
-        }
-
+        if (angle >= -145 && angle <= -35) {
+            state = State.rund;
+        } 
     }
 }
