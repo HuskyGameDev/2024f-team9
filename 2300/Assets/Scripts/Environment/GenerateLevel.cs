@@ -38,13 +38,13 @@ public class GenerateLevel : MonoBehaviour
 
     private void OnValidate()
     {
-        if (!backgroundMap) Debug.LogError($"Background Map not assigned.");
-        else if (backgroundTiles.Length < 1) Debug.LogError($"Background Tiles missing atleast one tile to fill with.");
-        if (!collisionPlane) Debug.LogError($"Collision Plane not assigned.");
+        if (!backgroundMap) Debug.LogError($"GenerateLevel.cs: Background Map not assigned.");
+        else if (backgroundTiles.Length < 1) Debug.LogError($"GenerateLevel.cs: Background Tiles missing atleast one tile to fill with.");
+        if (!collisionPlane) Debug.LogError($"GenerateLevel.cs: Collision Plane not assigned.");
         for (int i = 0; i < decorationLayers.Length; i++) // could use foreach loop but i want to be able to tell the index that has an unassigned map ;)
-            if (decorationLayers[i].decorationMap == null) Debug.LogError($"Decoration Layer at Index {i} has a decoration map Unassigned.");
+            if (decorationLayers[i].decorationMap == null) Debug.LogError($"GenerateLevel.cs: Decoration Layer at Index {i} has a decoration map Unassigned.");
 
-        if(!portal && usePortals) Debug.LogError($"Portal Prefab not assigned.");
+        if(!portal && usePortals) Debug.LogError($"GenerateLevel.cs: Portal Prefab not assigned.");
     }
 
     // Start is called before the first frame update
@@ -93,7 +93,7 @@ public class GenerateLevel : MonoBehaviour
             lpc.tileSizeY = tileSizeY;
             lpc.transform.position = new Vector3(transform.position.x + (-tileSizeX / 2),transform.position.y,transform.position.z);
         }
-        else Debug.LogError($"Portal Prefab ({portal.name}) does not contain PortalController Component!\t{portalError++}");
+        else Debug.LogError($"GenerateLevel.cs: Portal Prefab ({portal.name}) does not contain PortalController Component!\t{portalError++}");
         var rightPortal = Instantiate(portal, transform);
         if (rightPortal.TryGetComponent<PortalController>(out var rpc))
         {
@@ -102,7 +102,7 @@ public class GenerateLevel : MonoBehaviour
             rpc.tileSizeY = tileSizeY;
             rpc.transform.position = new Vector3(transform.position.x + (tileSizeX * tiles) - (tileSizeX/2), transform.position.y, transform.position.z);
         }
-        else Debug.LogError($"Portal Prefab ({portal.name}) does not contain PortalController Component!\t{portalError++}");
+        else Debug.LogError($"GenerateLevel.cs: Portal Prefab ({portal.name}) does not contain PortalController Component!\t{portalError++}");
 
         if (portalError > 0) return; // if there are too many errors(>0) with portals there is no point to continue further.
 
