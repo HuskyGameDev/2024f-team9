@@ -13,6 +13,8 @@ public class Controller : MonoBehaviour
     private float hdirection;
     private float vdirection;
     Vector2 mousePos;
+    Vector2 xRef = new Vector2(.5f, .5f);
+    Vector2 yRef = new Vector2(.5f, -.5f);
 
     private enum State {idle, runl, runr, runu, rund};
     private State state = State.idle;
@@ -31,7 +33,11 @@ public class Controller : MonoBehaviour
         vdirection = Input.GetAxisRaw("Vertical");
 
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-      
+
+        Vector2 deltaX = dotProdX(xRef, mousePos);
+        Vector2 deltaY = dotProdY(yRef, mousePos);
+        
+        faceState(deltaX, deltaY);
 
         anim.SetInteger("state", (int)state);
     }
@@ -40,21 +46,6 @@ public class Controller : MonoBehaviour
     {
         MovePlayer(hdirection, vdirection);
         MoveCursor(mousePos);
-
-        
-
-        Vector2 lookDir = mousePos - rb.position;
-        Vector3 eulerAngles = rb.transform.rotation.eulerAngles;
-        float angX = eulerAngles.x;
-        float angY = eulerAngles.y;
-        float angle = 0;
-        Debug.Log(angX);
-        Debug.Log(angY);
-        //float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
-        //rb.rotation = angle;
-        AngleState(angle);
-
-        
     }
 
     void MovePlayer(float h, float v) 
@@ -71,16 +62,34 @@ public class Controller : MonoBehaviour
 
    
 
-    private void AngleState(float angle)
+    private void faceState(Vector2 deltaX, Vector2 deltaY)
     {
-        if (angle <= 145 && angle >=35) {
-            state = State.runu;
+       if (deltaX.x > 0 && deltaY.y > 0)
+        {
+            state = State.runr;
         }
-        if (angle <=35 && angle >= -35) {
+        if (deltaX.x < 0 && deltaY.y > 0)
+        {
+            state = State.rund;
+        }
+        if (deltaX.x < 0 && deltaY.y < 0)
+        {
             state = State.runl;
         }
-        if (angle >= -145 && angle <= -35) {
-            state = State.rund;
-        } 
+        if (deltaX.x > 0 && deltaY.y < 0)
+        {
+            state = State.runu;
+        }
+        
     }
+
+    private Vector2 dotProdX(Vector2 xRef, Vector2 mousePos) {
+        return new Vector2((xRef.x * mousePos.x),(xRef.y * mousePos.y));
+    }
+
+    private Vector2 dotProdY(Vector2 yRef, Vector2 mousePos) {
+        return new Vector2((yRef.x * mousePos.x),(yRef.y * mousePos.y));
+    }
+
+    
 }
