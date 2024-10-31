@@ -409,6 +409,8 @@ MonoBehaviour:
   gun: {fileID: 1573616871}
   crosshair: {fileID: 536437619}
   cam: {fileID: 1850039792}
+  xRef: {x: 0, y: 0}
+  yRef: {x: 0, y: 0}
 --- !u!1 &1573616871
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,7 +444,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.256, y: -0.157}
+  m_AnchoredPosition: {x: -0.245, y: -0.156}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1573616873
@@ -485,7 +487,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1804884769, guid: 370e89d751e7da84aa56df5131b939c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
