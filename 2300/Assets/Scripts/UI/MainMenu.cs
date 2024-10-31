@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public void PlayGame(){
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1);
     }
 
     public void GoToSettingsMenu(){
@@ -14,7 +14,11 @@ public class MainMenu : MonoBehaviour
     }
 
     public void GoToMainMenu(){
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(0);
+    }
+
+    public void SetFullscreen (bool isFullScreen){
+        Screen.fullScreen = isFullScreen;
     }
 
     public void QuitGame(){
