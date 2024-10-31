@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2618430916410601526}
   - component: {fileID: 6128131878035702163}
   - component: {fileID: 3822613983596473097}
+  - component: {fileID: 2824899900782584168}
   m_Layer: 29
   m_Name: Enemy 1
   m_TagString: Enemy
@@ -178,3 +179,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousOffsetFromPortal: {x: 0, y: 0, z: 0}
+--- !u!114 &2824899900782584168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6938078356700969474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b84fa5bce5b346418143e4cd546fb3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

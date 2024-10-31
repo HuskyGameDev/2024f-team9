@@ -35,6 +35,9 @@ public class GenerateLevel : MonoBehaviour
     [Header("Decoration layers")]
     public DecorationLayer[] decorationLayers;
 
+    [Header("Radiation Layer")]
+    public Tilemap radiationLayer;
+    public Tile[] radiationTiles;
 
     private void OnValidate()
     {

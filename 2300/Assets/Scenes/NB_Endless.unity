@@ -296,26 +296,29 @@ MonoBehaviour:
   tileSizeY: 20
   backgroundMap: {fileID: 2137495348}
   backgroundTiles:
-  - {fileID: 11400000, guid: 7596af8e1d2a7b5468f9da8d54506fd5, type: 2}
-  - {fileID: 11400000, guid: 7160b37041d7d4541881becfe91d7142, type: 2}
+  - {fileID: 11400000, guid: 5f143185d17fe894a84d68e389c8444a, type: 2}
   collisionPlane: {fileID: 1967268803}
   collisionTiles:
-  - {fileID: 11400000, guid: 139e553ba9d397a46b9d39ab2c5f3f3e, type: 2}
-  - {fileID: 11400000, guid: 6108bdf1c527371448013a942208f774, type: 2}
+  - {fileID: 11400000, guid: 7ceb5ef287599354d93c90e15f562a1e, type: 2}
   decorationLayers:
-  - decorationFill: 0.063
+  - decorationFill: 0.025
     decorationMap: {fileID: 1698565327}
     decorationTiles:
-    - {fileID: 11400000, guid: 26486e0d4a086164dac7c4c44139ff6a, type: 2}
+    - {fileID: 11400000, guid: aa1c3eb0e8935b44e8df354eda106165, type: 2}
+    - {fileID: 11400000, guid: e4436b76a5f5d8446aebfae33c4b8cb9, type: 2}
+    - {fileID: 11400000, guid: 53ed951897df6944ab43cfd180c66ce2, type: 2}
   - decorationFill: 0.125
     decorationMap: {fileID: 1564926675}
     decorationTiles:
-    - {fileID: 11400000, guid: c836c9e5935d97646981f2fdcbfb558e, type: 2}
-    - {fileID: 11400000, guid: 189226eaf2fd9004ab49b29db26c0748, type: 2}
-  - decorationFill: 0.031
-    decorationMap: {fileID: 629531997}
-    decorationTiles:
-    - {fileID: 11400000, guid: 38ff40930256db647b5aa741e65972d8, type: 2}
+    - {fileID: 11400000, guid: d073bae478c33894ea0a751e49701ed6, type: 2}
+  radiationLayer: {fileID: 629531997}
+  radiationTiles:
+  - {fileID: 11400000, guid: 68f1fcf9cd4996542a9daeb09a19cdc1, type: 2}
+  - {fileID: 11400000, guid: dbcb33471d12346418acbfc9083179bf, type: 2}
+  - {fileID: 11400000, guid: 8b4fc881e31d7f74191d99f9c6f86004, type: 2}
+  - {fileID: 11400000, guid: 4eb11cc96155bda4f9d2c778998de129, type: 2}
+  - {fileID: 11400000, guid: cb183f5e5ff2d0546bb281df746f0ad7, type: 2}
+  - {fileID: 11400000, guid: 38cf12ff96b0a794391bd8fad10ba319, type: 2}
 --- !u!156049354 &261357558
 Grid:
   m_ObjectHideFlags: 0
@@ -510,8 +513,8 @@ GameObject:
   - component: {fileID: 629531997}
   - component: {fileID: 629531998}
   m_Layer: 0
-  m_Name: Foreground
-  m_TagString: Untagged
+  m_Name: Radiation
+  m_TagString: Radiation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1293,7 +1296,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
