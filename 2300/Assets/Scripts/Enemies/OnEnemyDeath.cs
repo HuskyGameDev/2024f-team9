@@ -9,50 +9,63 @@ public class OnEnemyDeath : MonoBehaviour
 {
     private Tilemap radiationLayer;
 
-    //private static readonly TileBase radiation1 = Resources.Load<TileBase>("Palettes(Tiles)/Map/Radiation_Level_1");
-    //private static readonly TileBase radiation2 = Resources.Load<TileBase>("Palettes(Tiles)/Map/Radiation_Level_2");
-    //private static readonly TileBase radiation3 = Resources.Load<TileBase>("Palettes(Tiles)/Map/Radiation_Level_3");
-    //private static readonly TileBase radiation4 = Resources.Load<TileBase>("Palettes(Tiles)/Map/Radiation_Level_4");
-    //private static readonly TileBase radiation5 = Resources.Load<TileBase>("Palettes(Tiles)/Map/Radiation_Level_5");
-    //private static readonly TileBase radiation6 = Resources.Load<TileBase>("Palettes(Tiles)/Map/Radiation_Level_6");
+    private TileBase radiation1;
+    private TileBase radiation2;
+    private TileBase radiation3;
+    private TileBase radiation4;
+    private TileBase radiation5;
+    private TileBase radiation6;
 
     private void OnDisable()
     {
+        if (radiationLayer == null)
+        {
+            return;
+        }
+
         Vector3 position = transform.position;
         Vector3Int positionInt = Vector3Int.FloorToInt(position);
         var tile = radiationLayer.GetTile(positionInt);
 
         //increase radiation level
-        //if (tile == null)
-        //{
-        //    radiationLayer.SetTile(positionInt, radiation1);
-        //}
-        //else if (tile == radiation1)
-        //{
-        //    radiationLayer.SetTile(positionInt, radiation2);
-        //}
-        //else if (tile == radiation2)
-        //{
-        //    radiationLayer.SetTile(positionInt, radiation3);
-        //}
-        //else if (tile == radiation3)
-        //{
-        //    radiationLayer.SetTile(positionInt, radiation4);
-        //}
-        //else if (tile == radiation4)
-        //{
-        //    radiationLayer.SetTile(positionInt, radiation5);
-        //}
-        //else if (tile == radiation5)
-        //{
-        //    radiationLayer.SetTile(positionInt, radiation6);
-        //}
+        if (tile == null)
+        {
+            radiationLayer.SetTile(positionInt, radiation1);
+        }
+        else if (tile == radiation1)
+        {
+            radiationLayer.SetTile(positionInt, radiation2);
+        }
+        else if (tile == radiation2)
+        {
+            radiationLayer.SetTile(positionInt, radiation3);
+        }
+        else if (tile == radiation3)
+        {
+            radiationLayer.SetTile(positionInt, radiation4);
+        }
+        else if (tile == radiation4)
+        {
+            radiationLayer.SetTile(positionInt, radiation5);
+        }
+        else if (tile == radiation5)
+        {
+            radiationLayer.SetTile(positionInt, radiation6);
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
         radiationLayer = GameObject.FindGameObjectWithTag("Radiation").GetComponent<Tilemap>();
+
+        var map = radiationLayer.GetComponentInParent<GenerateLevel>();
+        radiation1 = map.radiationTiles[0];
+        radiation2 = map.radiationTiles[1];
+        radiation3 = map.radiationTiles[2];
+        radiation4 = map.radiationTiles[3];
+        radiation5 = map.radiationTiles[4];
+        radiation6 = map.radiationTiles[5];
     }
 
     // Update is called once per frame
