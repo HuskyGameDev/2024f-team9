@@ -13,37 +13,75 @@ public class EnemyAI : MonoBehaviour
     public float speed; // how fast does the enemy move.
 
     private Rigidbody2D rb;
+    private Animator anim;
 
-    public bool selfDestruct = true;
+    public bool debugSelfDestruct = true;
+
+    private enum State { idle, runl, runr, runu, rund };
+    private State state = State.idle;
 
     private void OnEnable()
     {
+        state = State.idle;
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) Debug.LogError($"EnemyAI.cs: {name} couldn't find player GameObject.\n\nCheck that the player gameobject has the tag \"player\" and is in this scene.");
         target = player?.transform;
         StartCoroutine(checkDistances());
     }
 
+    private void OnDisable()
+    {
+        StopCoroutine(checkDistances()); // cleanup during disable so nothing is being run in the background when this object is not in "play".
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     private float kill = 0;
     // Update is called once per frame
     void Update()
     {
-        if (selfDestruct)
+        if (debugSelfDestruct)
         {
             if (kill > 10)
             {
                 kill = 0;
-                gameObject.SetActive(false);
+                gameObject.SetActive(false); // disable the gameobject instead of destroying it so we can reuse the enemy and improve performance.
             }
             kill += Time.deltaTime;
         }
-        
+
+        anim.SetInteger("state", (int)state);
+        angleState((target.position - transform.position).normalized);
+
         rb.velocity = (target.position - transform.position).normalized * speed;
+
+    }
+
+    private void angleState(Vector2 lookDir)
+    {
+        var up = Vector2.Dot(lookDir, Vector2.up); // 1 if lookDir is looking up. 0 if looking to the right/left. -1 if looking down.
+        var right = Vector2.Dot(lookDir, Vector2.right); // 1 if looking right. 0 if looking up or down. -1 if looking left.
+        
+        if (Mathf.Abs(up) >= Mathf.Abs(right))
+        {
+            if (up > 0)
+                state = State.runu;
+            else if (up < 0)
+                state = State.rund;
+        }
+        else if (Mathf.Abs(right) > Mathf.Abs(up))
+        {
+            if (right > 0)
+                state = State.runr;
+            else if (right < 0)
+                state = State.runl;
+        }
+        else
+            state = State.idle;
     }
 
     private void updateTarget(Transform p)
@@ -62,11 +100,13 @@ public class EnemyAI : MonoBehaviour
         // you don't want every enemy to check distance at the same time that will cause lag spikes
         var wait = new WaitForSeconds(Random.Range(1, 5));
 
-        while (true)
+
+        GameObject[] results = GameObject.FindGameObjectsWithTag("Portal"); // find all portals in scene
+
+        while (true && results.Length > 0)
         {
             yield return wait;
 
-            GameObject[] results = GameObject.FindGameObjectsWithTag("Portal"); // find all portals in scene
             Transform closePortal = null; // closest portal
             Transform farPortal = null; // farthest portal
             float d1 = Mathf.Infinity;
