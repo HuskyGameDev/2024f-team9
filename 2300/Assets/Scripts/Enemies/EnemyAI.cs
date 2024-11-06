@@ -58,14 +58,13 @@ public class EnemyAI : MonoBehaviour
         angleState((target.position - transform.position).normalized);
 
         rb.velocity = (target.position - transform.position).normalized * speed;
-
     }
 
     private void angleState(Vector2 lookDir)
     {
         var up = Vector2.Dot(lookDir, Vector2.up); // 1 if lookDir is looking up. 0 if looking to the right/left. -1 if looking down.
         var right = Vector2.Dot(lookDir, Vector2.right); // 1 if looking right. 0 if looking up or down. -1 if looking left.
-        
+
         if (Mathf.Abs(up) >= Mathf.Abs(right))
         {
             if (up > 0)
@@ -84,21 +83,10 @@ public class EnemyAI : MonoBehaviour
             state = State.idle;
     }
 
-    private void updateTarget(Transform p)
-    {
-        if (p == target) return; // if we are already chasing the portal exit early.
-
-        var a = Vector3.Distance(player.transform.position, transform.position); // distance to player
-        var b = Vector3.Distance(p.position, transform.position); // distance to portal
-
-        if (a > b)
-            target = p;
-    }
-
     private IEnumerator checkDistances()
     {
         // you don't want every enemy to check distance at the same time that will cause lag spikes
-        var wait = new WaitForSeconds(Random.Range(1, 5));
+        var wait = new WaitForSeconds(Random.Range(1, 3));
 
 
         GameObject[] results = GameObject.FindGameObjectsWithTag("Portal"); // find all portals in scene
@@ -132,7 +120,7 @@ public class EnemyAI : MonoBehaviour
             // if player is farther away than closest portal
             // and the distance to closest portal + distance from farthest portal to player is less than distance to player then use the closest portal.
             if (a > d1 && d1 + ap < a)
-                updateTarget(closePortal);
+                target = closePortal;
             else // otherwise you should just look to chase the player.
                 target = player.transform;
         }

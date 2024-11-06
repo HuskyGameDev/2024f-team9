@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D),typeof(BoxCollider2D))]
 public class Controller : MonoBehaviour
 {
     public float speed = 5;
     private Animator anim;
     private Rigidbody2D rb;
+    public GameObject playerGFX;
     public GameObject gun;
     public GameObject crosshair;
     public Camera cam;
@@ -26,7 +28,7 @@ public class Controller : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        anim = playerGFX.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -81,4 +83,5 @@ public class Controller : MonoBehaviour
             state = State.runr;
         }
     }
+
 }

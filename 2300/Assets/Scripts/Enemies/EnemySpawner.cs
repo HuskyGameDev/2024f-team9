@@ -19,6 +19,8 @@ public class EnemySpawner : MonoBehaviour
     private GameObject highestWeightEnemyPrefab; // fallback enemy to spawn when weights don't add up to < 1
 
     public int spawnAmount = 5; // starting amount of enemies spawned
+    [Tooltip("By what percent do you want the amount of enemies to increase each wave?"),Range(0,1)]
+    public float spawnIncrease = 0.1f;
     private float _spawnAmount; // actual amount spawned
 
     public float timeToSpawn;
@@ -109,23 +111,22 @@ public class EnemySpawner : MonoBehaviour
                     inactiveEnemy.transform.rotation = player.rotation;
                 }
             }
+
+            _spawnAmount += _spawnAmount*spawnIncrease;
         }
-
-
-        _spawnAmount += Time.deltaTime * 0.005f;
     }
 
     private GameObject enemyToSpawn()
     {
         float rand = Random.value;
         float chance = 0;
-        foreach (Enemy enemy in enemies)
+        foreach (Enemy enemy in enemies) // check each enemy in the enemies array.
         {
-            if (rand < chance + enemy.weight)
+            if (rand < chance + enemy.weight) // if the value is less than the current chance + enemy weight then return this enemy.
                 return enemy.prefab;
-            chance += enemy.weight;
+            chance += enemy.weight; // every attempt increase the chance for the mob to spawn by the weight. so that you have a porportional weighting spawn.
         }
 
-        return highestWeightEnemyPrefab;
+        return highestWeightEnemyPrefab; // if no enemy passes the enemy weight check then by default spawn the enemy with the highest weight value since it's the "most" common enemy type.
     }
 }

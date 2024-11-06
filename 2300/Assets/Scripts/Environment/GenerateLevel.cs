@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -47,7 +48,7 @@ public class GenerateLevel : MonoBehaviour
         for (int i = 0; i < decorationLayers.Length; i++) // could use foreach loop but i want to be able to tell the index that has an unassigned map ;)
             if (decorationLayers[i].decorationMap == null) Debug.LogError($"GenerateLevel.cs: Decoration Layer at Index {i} has a decoration map Unassigned.");
 
-        if(!portal && usePortals) Debug.LogError($"GenerateLevel.cs: Portal Prefab not assigned.");
+        if (!portal && usePortals) Debug.LogError($"GenerateLevel.cs: Portal Prefab not assigned.");
     }
 
     // Start is called before the first frame update
@@ -62,26 +63,33 @@ public class GenerateLevel : MonoBehaviour
         // fill background
         var backStart = new Vector3Int(-tileSizeX / 2, -tileSizeY / 2);
         var backEnd = new Vector3Int((tileSizeX * tiles) - (tileSizeX / 2) - 1, (tileSizeY - 1) / 2);
-        RandFill(backgroundMap, backgroundTiles, backStart, backEnd);
+
+        // shift the map left to place the player at dead center of the level.
+        backStart -= new Vector3Int(tileSizeX * (tiles - 1) / 2, 0, 0);
+        backEnd -= new Vector3Int(tileSizeX * (tiles - 1) / 2, 0, 0);
+
+        RandFill(backgroundMap, backgroundTiles, backStart * 2, backEnd*2);
 
         // fill top and Bottom walls
-        var topStart = new Vector3Int(backStart.x, (tileSizeY - 1) / 2);
-        var topEnd = new Vector3Int(backEnd.x, topStart.y);
-        var bottomStart = new Vector3Int(backStart.x, -topStart.y - 1);
-        var bottomEnd = new Vector3Int(backEnd.x, -topStart.y - 1);
+        var topStart = new Vector3Int(backStart.x * 2, (tileSizeY - 1) / 2);
+        var topEnd = new Vector3Int(backEnd.x * 2, topStart.y);
+        var bottomStart = new Vector3Int(backStart.x * 2, -topStart.y - 1);
+        var bottomEnd = new Vector3Int(backEnd.x * 2, -topStart.y - 1);
         if (collisionTiles.Length > 0)
         {
             RandFill(collisionPlane, collisionTiles, topStart, topEnd);
             RandFill(collisionPlane, collisionTiles, bottomStart, bottomEnd);
         }
 
+        backStart.y += 1;
+        backEnd.y -= 1;
+
         // Fill decoration layers with corresponding Tiles.
         foreach (DecorationLayer l in decorationLayers)
             if (l.decorationTiles.Length > 0)
-                RandFill(l.decorationMap, l.decorationTiles, backStart, backEnd, false, l.decorationFill);
+                RandFill(l.decorationMap, l.decorationTiles, backStart, backEnd, l.decorationFill >= 1, l.decorationFill);
 
-        // shift the map left to place the player at dead center of the level.
-        transform.position -= new Vector3(tileSizeX*(tiles-1)/2,transform.position.y,transform.position.z);
+
 
         // everything past this point is related to portals so if we aren't using them then no need to execute past this point.
         if (!usePortals) return;
@@ -94,7 +102,8 @@ public class GenerateLevel : MonoBehaviour
             lpc.LeftPortal = true;
             lpc.tileSizeX = tileSizeX;
             lpc.tileSizeY = tileSizeY;
-            lpc.transform.position = new Vector3(transform.position.x + (-tileSizeX / 2),transform.position.y,transform.position.z);
+            //lpc.transform.position = new Vector3(backStart.x + (-tileSizeX / 2), transform.position.y, transform.position.z);
+            lpc.transform.position = new Vector3((-tileSizeX / 2)+0.5f - ((tileSizeX * (tiles - 1)) / 2), transform.position.y, transform.position.z);
         }
         else Debug.LogError($"GenerateLevel.cs: Portal Prefab ({portal.name}) does not contain PortalController Component!\t{portalError++}");
         var rightPortal = Instantiate(portal, transform);
@@ -103,7 +112,8 @@ public class GenerateLevel : MonoBehaviour
             rpc.LeftPortal = false;
             rpc.tileSizeX = tileSizeX;
             rpc.tileSizeY = tileSizeY;
-            rpc.transform.position = new Vector3(transform.position.x + (tileSizeX * tiles) - (tileSizeX/2), transform.position.y, transform.position.z);
+            //rpc.transform.position = new Vector3(backStart.x + (tileSizeX * tiles) - (tileSizeX / 2), transform.position.y, transform.position.z);
+            rpc.transform.position = new Vector3(((tileSizeX * tiles) - (tileSizeX / 2) - .5f) - ((tileSizeX * (tiles - 1)) / 2), transform.position.y, transform.position.z);
         }
         else Debug.LogError($"GenerateLevel.cs: Portal Prefab ({portal.name}) does not contain PortalController Component!\t{portalError++}");
 
@@ -114,7 +124,7 @@ public class GenerateLevel : MonoBehaviour
             rpc.linkedPortal = lpc;
             lpc.linkedPortal = rpc;
         }
-        
+
 
 
     }
