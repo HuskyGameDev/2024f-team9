@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Portal
   - Radiation
+  - bullet
   layers:
   - Default
   - TransparentFX
