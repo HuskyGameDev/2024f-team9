@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    
+
 
     private void FixedUpdate(){
         if (movementInput != Vector2.zero){

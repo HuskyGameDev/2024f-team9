@@ -1,10 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D),typeof(BoxCollider2D))]
 public class Controller : MonoBehaviour
 {
+    private Tilemap radiationLayer;
+
+    private TileBase radiation1;
+    private TileBase radiation2;
+    private TileBase radiation3;
+    private TileBase radiation4;
+    private TileBase radiation5;
+
     public float speed = 5;
     private Animator anim;
     private Rigidbody2D rb;
@@ -19,14 +28,26 @@ public class Controller : MonoBehaviour
     public Vector2 yRef;
     private Vector3 mousePos;
     private Vector3 crossHair;
-    
 
     private enum State {idle, runl, runr, runu, rund};
     private State state = State.idle;
 
+    public HealthManager healthManager;
+    private float damageTimer = 0.0f;
+    private float damageInterval = 1.0f;
+
     // Start is called before the first frame update
     void Start()
     {
+        radiationLayer = GameObject.FindGameObjectWithTag("Radiation").GetComponent<Tilemap>();
+
+        var map = radiationLayer.GetComponentInParent<GenerateLevel>();
+        radiation1 = map.radiationTiles[0];
+        radiation2 = map.radiationTiles[1];
+        radiation3 = map.radiationTiles[2];
+        radiation4 = map.radiationTiles[3];
+        radiation5 = map.radiationTiles[4];
+
         rb = GetComponent<Rigidbody2D>();
         anim = playerGFX.GetComponent<Animator>();
     }
@@ -55,6 +76,42 @@ public class Controller : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer(hdirection, vdirection);
+
+        Vector3 position = transform.position;
+        Vector3Int positionInt = Vector3Int.FloorToInt(position);
+        var tile = radiationLayer.GetTile(positionInt);
+
+        float radiationDamage = 0.0f;
+
+        //set radiation damage based on radiation tile
+        if (tile == radiation1)
+        {
+            radiationDamage = 1.0f;
+        }
+        else if (tile == radiation2)
+        {
+            radiationDamage = 2.0f;
+        }
+        else if (tile == radiation3)
+        {
+            radiationDamage = 3.0f;
+        }
+        else if (tile == radiation4)
+        {
+            radiationDamage = 4.0f;
+        }
+        else if (tile == radiation5)
+        {
+            radiationDamage = 5.0f;
+        }
+
+        //apply damage every second that the player is on a radiation tile
+        damageTimer += Time.deltaTime;
+        if (damageTimer >= damageInterval)
+        {
+            healthManager.TakeDamage(radiationDamage);
+            damageTimer = 0.0f;
+        }
     }
 
     void MovePlayer(float h, float v) 
