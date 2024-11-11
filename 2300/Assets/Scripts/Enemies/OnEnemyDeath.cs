@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -14,7 +10,6 @@ public class OnEnemyDeath : MonoBehaviour
     private TileBase radiation3;
     private TileBase radiation4;
     private TileBase radiation5;
-    private TileBase radiation6;
 
     private void OnDisable()
     {
@@ -48,10 +43,6 @@ public class OnEnemyDeath : MonoBehaviour
         {
             radiationLayer.SetTile(positionInt, radiation5);
         }
-        else if (tile == radiation5)
-        {
-            radiationLayer.SetTile(positionInt, radiation6);
-        }
     }
 
     // Start is called before the first frame update
@@ -65,7 +56,6 @@ public class OnEnemyDeath : MonoBehaviour
         radiation3 = map.radiationTiles[2];
         radiation4 = map.radiationTiles[3];
         radiation5 = map.radiationTiles[4];
-        radiation6 = map.radiationTiles[5];
     }
 
     // Update is called once per frame

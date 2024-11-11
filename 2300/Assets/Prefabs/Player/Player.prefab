@@ -34,7 +34,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7167253773342062538}
-  - {fileID: 1054002254306546137}
   - {fileID: 5947782017365015034}
   - {fileID: 320780138847358416}
   m_Father: {fileID: 0}
@@ -130,6 +129,7 @@ MonoBehaviour:
   cam: {fileID: 9065585309334000440}
   xRef: {x: 0, y: 0}
   yRef: {x: 0, y: 0}
+  healthManager: {fileID: 0}
 --- !u!114 &8873568039713546763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +172,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1054002254306546137}
   m_Father: {fileID: 7571679902780746746}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -458,7 +459,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7571679902780746746}
+  m_Father: {fileID: 7167253773342062538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
