@@ -159,8 +159,8 @@ MonoBehaviour:
   spawnAmount: 10
   spawnIncrease: 0.001
   timeToSpawn: 2.5
-  spawnRadius: 12
-  spawnLeniency: 5
+  spawnRadius: 15
+  spawnLeniency: 12
 --- !u!4 &194972024
 Transform:
   m_ObjectHideFlags: 0
@@ -289,11 +289,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce60da0487901604680b87f527862863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rooms: 5
+  RoomSizeX: 21
+  RoomSizeY: 21
   usePortals: 1
   portal: {fileID: 3383529100322657169, guid: 90297c4ad6aa5fc408da3921a78d5ec1, type: 3}
-  tiles: 5
-  tileSizeX: 18
-  tileSizeY: 20
+  useObjectives: 1
+  numObjectives: 2
+  Objectives:
+  - {fileID: 2152302438992050655, guid: 7f950227b9fcaa646964176fc47b8cb2, type: 3}
   backgroundMap: {fileID: 2137495348}
   backgroundTiles:
   - {fileID: 11400000, guid: 5f143185d17fe894a84d68e389c8444a, type: 2}
@@ -1873,6 +1877,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 320780138847358416, guid: 51b934ae4fa2fc741b9d8dbb79924540, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 2208361794008540159, guid: 51b934ae4fa2fc741b9d8dbb79924540, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1921,6 +1929,10 @@ PrefabInstance:
       propertyPath: healthManager
       value: 
       objectReference: {fileID: 1138443464}
+    - target: {fileID: 9065585309334000440, guid: 51b934ae4fa2fc741b9d8dbb79924540, type: 3}
+      propertyPath: orthographic size
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
