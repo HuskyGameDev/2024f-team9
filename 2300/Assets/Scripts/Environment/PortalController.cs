@@ -7,7 +7,7 @@ public class PortalController : MonoBehaviour
     public PortalController linkedPortal;
     public SpriteRenderer screen;
     [HideInInspector]
-    public int tileSizeX, tileSizeY;
+    public int tileSizeY;
 
     BoxCollider2D _BC;
     List<PortalTraveler> _travelers;

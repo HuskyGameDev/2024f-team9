@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     private GameObject highestWeightEnemyPrefab; // fallback enemy to spawn when weights don't add up to < 1
 
     public int spawnAmount = 5; // starting amount of enemies spawned
-    [Tooltip("By what percent do you want the amount of enemies to increase each wave?"),Range(0,1)]
+    [Tooltip("By what percent do you want the amount of enemies to increase each wave?"),Range(0f,2f)]
     public float spawnIncrease = 0.1f;
     private float _spawnAmount; // actual amount spawned
 
