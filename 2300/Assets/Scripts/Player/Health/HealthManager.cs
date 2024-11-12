@@ -8,6 +8,8 @@ public class HealthManager : MonoBehaviour
     public Image healthbar;
     public float healthAmount = 100f;
 
+    public Controller playerController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,11 @@ public class HealthManager : MonoBehaviour
     public void TakeDamage(float damage){
         healthAmount -= damage;
         healthbar.fillAmount = healthAmount / 100f;
+
+        if (healthAmount <= 0f) {
+            healthAmount = 0f;
+            playerController.PlayerDied();
+        }
     }
 
     public void Heal(float healingAmount){

@@ -26,7 +26,10 @@ public class EnemyAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) Debug.LogError($"EnemyAI.cs: {name} couldn't find player GameObject.\n\nCheck that the player gameobject has the tag \"player\" and is in this scene.");
         target = player?.transform;
-        StartCoroutine(checkDistances());
+        if (target != null)
+        {
+            StartCoroutine(checkDistances());
+        }
     }
 
     private void OnDisable()
@@ -55,9 +58,11 @@ public class EnemyAI : MonoBehaviour
         }
 
         anim.SetInteger("state", (int)state);
-        angleState((target.position - transform.position).normalized);
-
-        rb.velocity = (target.position - transform.position).normalized * speed;
+        if (player != null)
+        {
+            angleState((target.position - transform.position).normalized);
+            rb.velocity = (target.position - transform.position).normalized * speed;
+        }
     }
 
     private void angleState(Vector2 lookDir)
