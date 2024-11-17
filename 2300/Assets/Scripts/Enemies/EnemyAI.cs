@@ -11,6 +11,8 @@ public class EnemyAI : MonoBehaviour
     private Transform target; // target transform so the enemy can look at objects other than the player.
 
     public float speed; // how fast does the enemy move.
+    [Min(0), Tooltip("How far from the player should the enemy stand? \n(0: 0 units away, 1:1 units away\n\nNote that if you set (playerCrowding > hitbox) there is a chance the hitboxes will never align and the player would never actually take damage willingly")]
+    public float playerCrowding = 0.5f;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -57,7 +59,16 @@ public class EnemyAI : MonoBehaviour
         anim.SetInteger("state", (int)state);
         angleState((target.position - transform.position).normalized);
 
-        rb.velocity = (target.position - transform.position).normalized * speed;
+        
+        if(target == player.transform)
+        {
+            var dir = (target.position - transform.position) + ((transform.position - target.position).normalized * playerCrowding); // direction to player + minor offset
+            rb.velocity = dir.normalized * speed;
+        }
+        else
+        {
+            rb.velocity = (target.position - transform.position).normalized * speed;
+        }
     }
 
     private void angleState(Vector2 lookDir)

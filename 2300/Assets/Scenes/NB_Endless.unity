@@ -289,9 +289,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce60da0487901604680b87f527862863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rooms: 5
-  RoomSizeX: 21
-  RoomSizeY: 21
+  rooms: 2
+  RoomSizeX: 5
+  RoomSizeY: 5
   usePortals: 1
   portal: {fileID: 3383529100322657169, guid: 90297c4ad6aa5fc408da3921a78d5ec1, type: 3}
   useObjectives: 1

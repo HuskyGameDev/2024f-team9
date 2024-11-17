@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -27,7 +28,7 @@ public class GenerateLevel : MonoBehaviour
 
     [Header("Objectives")]
     public bool useObjectives = true;
-    [Tooltip("How many Objectives do you want to spawn on the map?"), Range(1, 5)]
+    [Tooltip("How many Objectives do you want to spawn on the map?"),Min(1)]
     public int numObjectives = 2;
     [Tooltip("Prefabs referencing potential Objectives")]
     public GameObject[] Objectives;
@@ -58,7 +59,9 @@ public class GenerateLevel : MonoBehaviour
             if (decorationLayers[i].decorationMap == null) Debug.LogError($"GenerateLevel.cs: Decoration Layer at Index {i} has a decoration map Unassigned.");
 
         if (!portal && usePortals) Debug.LogError($"GenerateLevel.cs: Portal Prefab not assigned.");
-        if(Objectives.Length == 0 && useObjectives) Debug.LogError($"GenerateLevel.cs: Objective Prefab(s) not assigned.");
+        if (Objectives.Length == 0 && useObjectives) Debug.LogError($"GenerateLevel.cs: Objective Prefab(s) not assigned.");
+
+        if (numObjectives > rooms) numObjectives = rooms;
     }
 
     // Start is called before the first frame update
@@ -78,8 +81,8 @@ public class GenerateLevel : MonoBehaviour
         var backEnd = new Vector3Int((RoomSizeX * rooms) - (RoomSizeX / 2) - 1, (RoomSizeY - 1) / 2);
 
         // shift the map left to place the player at dead center of the level.
-        backStart -= new Vector3Int(RoomSizeX * (rooms - 1) / 2, 0, 0);
-        backEnd -= new Vector3Int(RoomSizeX * (rooms - 1) / 2, 0, 0);
+        backStart -= new Vector3Int(RoomSizeX * (rooms - 1) / 2, 0);
+        backEnd -= new Vector3Int(RoomSizeX * (rooms - 1) / 2, 0);
 
         RandFill(backgroundMap, backgroundTiles, backStart * 2, backEnd * 2);
 
@@ -105,6 +108,17 @@ public class GenerateLevel : MonoBehaviour
         // Now you're thinking with portals!
         if (usePortals)
         {
+            // its dirty but just duplicate the decoration layers and offset them by the level so it creates the illusion of an "infinite" level.
+            foreach (DecorationLayer l in decorationLayers)
+            {
+                var lef = Instantiate(l.decorationMap);
+                var rig = Instantiate(l.decorationMap);
+                lef.transform.SetParent(gameObject.transform);
+                lef.transform.position = new Vector3(backStart.x * 2, 0);
+                rig.transform.SetParent(gameObject.transform);
+                rig.transform.position = new Vector3(backEnd.x * 2, 0);
+            }
+
             // generate Portals on each end of map.
             int portalError = 0;
             var LeftPortal = Instantiate(portal, transform);
@@ -143,17 +157,24 @@ public class GenerateLevel : MonoBehaviour
 
         if (useObjectives)
         {
+            List<int> takenRooms = new List<int>();
             for (int i = 0; i < numObjectives; i++)
             {
-                var position = new Vector3Int((int)Mathf.Lerp(decoStart.x + 3, decoEnd.x - 3, Random.value), // x offset by half a room size
-                                              (int)Mathf.Lerp(decoStart.y, decoEnd.y, Random.value), // y (either on the top or bottom of the map)
-                                              (int)Mathf.Lerp(decoStart.z, decoEnd.z, Random.value)); // z
+                int room = Random.Range(1, rooms + 1);
+                while (takenRooms.Contains(room)) // could freeze game hopefully it doesn't 
+                    room = Random.Range(1, rooms + 1);
+
+                var roomStartX = ((-RoomSizeX / 2) + ((room - 1) * RoomSizeX)) - (RoomSizeX * (rooms-1)/2); // room start - level offset
+                var roomEndX = ((RoomSizeX * room) - (RoomSizeX / 2) - 1) - (RoomSizeX * (rooms - 1) / 2); // room end - level offest
+
+                var position = new Vector3Int((int)Mathf.Lerp(roomStartX + 3, roomEndX - 3, Random.value), // x
+                                              (int)Mathf.Lerp(backStart.y, backEnd.y, Random.value)); // y (either on the top or bottom of the map)
 
                 var prefab = Objectives[Random.Range(0, Objectives.Length)]; // Objective
 
-                var obj = Instantiate(prefab, position, transform.rotation);
-
-                _activeObjectives.Add(obj);
+                var obj = Instantiate(prefab, position, transform.rotation,transform);
+                _activeObjectives.Add(obj); // object pooling maybe?
+                takenRooms.Add(room); // prevents multiple objectives in a single room.
             }
         }
     }
