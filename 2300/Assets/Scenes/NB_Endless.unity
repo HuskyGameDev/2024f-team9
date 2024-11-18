@@ -289,9 +289,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce60da0487901604680b87f527862863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rooms: 2
-  RoomSizeX: 5
-  RoomSizeY: 5
+  rooms: 5
+  RoomSizeX: 21
+  RoomSizeY: 21
   usePortals: 1
   portal: {fileID: 3383529100322657169, guid: 90297c4ad6aa5fc408da3921a78d5ec1, type: 3}
   useObjectives: 1
@@ -1884,6 +1884,10 @@ PrefabInstance:
     - target: {fileID: 2208361794008540159, guid: 51b934ae4fa2fc741b9d8dbb79924540, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208361794008540159, guid: 51b934ae4fa2fc741b9d8dbb79924540, type: 3}
+      propertyPath: m_Layer
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 7571679902780746746, guid: 51b934ae4fa2fc741b9d8dbb79924540, type: 3}
       propertyPath: m_LocalPosition.x
