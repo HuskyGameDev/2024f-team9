@@ -28,6 +28,8 @@ public class Controller : MonoBehaviour
     public Vector2 yRef;
     private Vector3 mousePos;
     private Vector3 crossHair;
+    private AudioSource audioSource;
+    private bool isMoving = false;
 
     private enum State {idle, runl, runr, runu, rund};
     private State state = State.idle;
@@ -50,6 +52,7 @@ public class Controller : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         anim = playerGFX.GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -70,6 +73,20 @@ public class Controller : MonoBehaviour
 
         hdirection = Input.GetAxisRaw("Horizontal");
         vdirection = Input.GetAxisRaw("Vertical");
+
+        if (rb.velocity.x == 0 && rb.velocity.y == 0) {
+            isMoving = false;
+        } else {
+            isMoving = true;
+        }
+
+        if (isMoving) {
+            if (!audioSource.isPlaying) {
+                audioSource.Play();
+            }
+        } else {
+            audioSource.Stop();
+        }
         
     }
 
@@ -116,8 +133,8 @@ public class Controller : MonoBehaviour
 
     void MovePlayer(float h, float v) 
     {
-         Vector2 targetVelocity = new Vector2(h * speed, v * speed);
-         rb.velocity = new Vector2(targetVelocity.x, targetVelocity.y); 
+        Vector2 targetVelocity = new Vector2(h * speed, v * speed);
+        rb.velocity = new Vector2(targetVelocity.x, targetVelocity.y);
     }
 
     void MoveCursor(Vector3 mousePos)
