@@ -141,4 +141,9 @@ public class Controller : MonoBehaviour
         }
     }
 
+    public void PlayerDied()
+    {
+        LevelManager.instance.GameOver();
+        gameObject.SetActive(false);
+    }
 }

@@ -28,7 +28,10 @@ public class EnemyAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) Debug.LogError($"EnemyAI.cs: {name} couldn't find player GameObject.\n\nCheck that the player gameobject has the tag \"player\" and is in this scene.");
         target = player?.transform;
-        StartCoroutine(checkDistances());
+        if (target != null)
+        {
+            StartCoroutine(checkDistances());
+        }
     }
 
     private void OnDisable()

@@ -8,6 +8,7 @@ TagManager:
   - Portal
   - Radiation
   - bullet
+  - GFX
   layers:
   - Default
   - TransparentFX
