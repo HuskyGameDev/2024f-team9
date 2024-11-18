@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// this script builds off of the Objective class because we use the progress bar but to leave room for future objectives i didn't want to hardcode the functionality of the instakill objective into the base class.
+/// </summary>
 public class InstaKill : Objective
 {
 
     [Header("Instant Kill")]
     public LayerMask enemyLayer;
     public float explosionRadius = 8;
-    public float explosionVfxEndAfter = 2;
 
     private ParticleSystem _ps;
 
@@ -31,18 +33,11 @@ public class InstaKill : Objective
 
     private void Explode(GameObject go)
     {
-        StartCoroutine(ExplodeFX());
+        _ps?.Play();
         var results = Physics2D.OverlapCircleAll(go.transform.position, explosionRadius, enemyLayer);
         foreach (var result in results)
         {
             result.gameObject.SetActive(false);
         }
-    }
-
-    private IEnumerator ExplodeFX()
-    {
-        _ps?.Play();
-        yield return new WaitForSeconds(explosionVfxEndAfter);
-        _ps?.Stop();
     }
 }
