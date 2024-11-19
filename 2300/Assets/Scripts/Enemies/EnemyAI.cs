@@ -9,19 +9,16 @@ public class EnemyAI : MonoBehaviour
     public GameObject player; // store reference to player so you don't have to keep looking up the player.
 
     private Transform target; // target transform so the enemy can look at objects other than the player.
-    public EnemyHealth enemyHealth;
 
-    private Rigidbody2D rb;
-    private Animator anim;
-
-    [Header("Movement")]
     public float speed; // how fast does the enemy move.
     [Min(0), Tooltip("How far from the player should the enemy stand? \n(0: 0 units away, 1:1 units away\n\nNote that if you set (playerCrowding > hitbox) there is a chance the hitboxes will never align and the player would never actually take damage willingly")]
     public float playerCrowding = 0.5f;
 
-    [Header("Attack")]
-    public float attackDamage = 2;
-    public float attackDelay = 1;
+    private Rigidbody2D rb;
+    private Animator anim;
+
+    public bool debugSelfDestruct = true;
+    public EnemyHealth enemyHealth;
 
     private enum State { idle, runl, runr, runu, rund };
     private State state = State.idle;
@@ -137,21 +134,6 @@ public class EnemyAI : MonoBehaviour
                 target = closePortal;
             else // otherwise you should just look to chase the player.
                 target = player.transform;
-        }
-    }
-
-    private float _damageTime;
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        Debug.Log($"hit by {collision.collider.name}");
-        if (collision.collider.CompareTag("Player"))
-        {
-            _damageTime += Time.deltaTime;
-            if (_damageTime >= attackDelay)
-            {
-                GameObject.FindFirstObjectByType<HealthManager>().TakeDamage(attackDamage);
-                _damageTime = 0;
-            }
         }
     }
 }

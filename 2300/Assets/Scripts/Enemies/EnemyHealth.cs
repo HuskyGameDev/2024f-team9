@@ -12,10 +12,9 @@ public class EnemyHealth : MonoBehaviour
         health = maxHealth;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        Debug.Log($"hit by {other.collider.name}");
-        if (other.gameObject.CompareTag("bullet"))
+
+    private void OnTriggerEnter2D(Collider2D other) {
+         if (other.gameObject.CompareTag("bullet"))
         {
             health--;
         }
