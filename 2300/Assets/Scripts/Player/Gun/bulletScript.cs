@@ -16,7 +16,14 @@ public class bulletScript : MonoBehaviour
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePos - transform.position;
         rb.velocity = new Vector2(direction.x , direction.y).normalized * force;
-        
+
+        StartCoroutine(decayAfter(force)); // delete the bullet after set amount of time has passed.
+    }
+
+    private IEnumerator decayAfter(float sec)
+    {
+        yield return new WaitForSeconds(sec);
+        Destroy(gameObject);
     }
 
     // Update is called once per frame

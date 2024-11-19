@@ -134,7 +134,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1744830464
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -151,10 +151,10 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1610612736
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -168,7 +168,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -197,9 +197,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  speed: 1
-  debugSelfDestruct: 1
   enemyHealth: {fileID: 3279351250241874220}
+  speed: 1
+  playerCrowding: 0.5
+  attackDamage: 2
+  attackDelay: 1
 --- !u!114 &3161800201236534239
 MonoBehaviour:
   m_ObjectHideFlags: 0
