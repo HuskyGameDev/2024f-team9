@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class bulletScript : MonoBehaviour
 {
+    public FireRateModifier fireRateModifier;
+    public HealthManager healthManager;
     private Vector3 mousePos;
     private Camera mainCam;
     private Rigidbody2D rb;
+    
     public float force;
     // Start is called before the first frame update
     void Start()
@@ -31,4 +34,25 @@ public class bulletScript : MonoBehaviour
     {
         
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy")) 
+        {
+           Debug.Log("Enemy hit detected!");
+
+            // Apply lifesteal
+            if (fireRateModifier != null && healthManager != null)
+            {
+                Debug.Log("Lifesteal applied: " + fireRateModifier.lifestealAmount);
+                healthManager.Heal(fireRateModifier.lifestealAmount);
+            }
+            else
+            {
+                Debug.LogWarning("HealthManager or fireRateModifier is not assigned in bulletScript!");
+            }
+        }
+
+    }    
+
 }
