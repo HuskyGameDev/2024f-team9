@@ -20,6 +20,8 @@ public class bulletScript : MonoBehaviour
         Vector3 direction = mousePos - transform.position;
         rb.velocity = new Vector2(direction.x , direction.y).normalized * force;
         StartCoroutine(DecayAfter(force));
+        fireRateModifier = FindFirstObjectByType<FireRateModifier>();
+        healthManager = FindFirstObjectByType<HealthManager>();
     }
 
     private IEnumerator DecayAfter(float sec)
@@ -39,17 +41,11 @@ public class bulletScript : MonoBehaviour
     {
         if (collision.CompareTag("Enemy")) 
         {
-           Debug.Log("Enemy hit detected!");
 
             // Apply lifesteal
             if (fireRateModifier != null && healthManager != null)
             {
-                Debug.Log("Lifesteal applied: " + fireRateModifier.lifestealAmount);
                 healthManager.Heal(fireRateModifier.lifestealAmount);
-            }
-            else
-            {
-                Debug.LogWarning("HealthManager or fireRateModifier is not assigned in bulletScript!");
             }
         }
 

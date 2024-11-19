@@ -1413,8 +1413,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingScript: {fileID: 1145141046}
-  healthManager: {fileID: 0}
-  lifestealAmount: 1
+  healthManager: {fileID: 1138443464}
+  lifestealAmount: 0
+  newLifestealAmount: 0
 --- !u!114 &1145141046 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5271119898329381259, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}

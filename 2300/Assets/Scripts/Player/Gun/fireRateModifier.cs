@@ -10,6 +10,7 @@ public class FireRateModifier : MonoBehaviour
     private float modifiedFireRate;
 
     public float lifestealAmount = 0f;
+    public float newLifestealAmount;
 
     void Start()
     {
@@ -39,9 +40,9 @@ public class FireRateModifier : MonoBehaviour
         if (healthManager != null)
         {
             if (lifestealAmount < 2){
-                lifestealAmount = lifestealAmount +1f;
+                newLifestealAmount = lifestealAmount +0.1f;
             }
-            
+            lifestealAmount = newLifestealAmount;
         
         }
     }
