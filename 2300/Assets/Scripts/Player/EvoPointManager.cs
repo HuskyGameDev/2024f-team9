@@ -27,6 +27,15 @@ public class EvoPointManager : MonoBehaviour
         {
             OnEvoPointBarFull();
         }
+
+        // Handle Escape key functionality
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (powerUpsMenu != null && powerUpsMenu.activeSelf)
+            {
+                ClosePowerUpsMenu(); // Close the Power-Ups menu if it is active
+            }
+        }
     }
 
     public void AddEvoPoints(float points)

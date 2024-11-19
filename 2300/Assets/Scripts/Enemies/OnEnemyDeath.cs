@@ -4,12 +4,14 @@ using UnityEngine.Tilemaps;
 public class OnEnemyDeath : MonoBehaviour
 {
     private Tilemap radiationLayer;
-
     private TileBase radiation1;
     private TileBase radiation2;
     private TileBase radiation3;
     private TileBase radiation4;
     private TileBase radiation5;
+
+    // Reference to EvoPointManager
+    private EvoPointManager evoPointManager;
 
     private void OnDisable()
     {
@@ -22,7 +24,7 @@ public class OnEnemyDeath : MonoBehaviour
         Vector3Int positionInt = Vector3Int.FloorToInt(position);
         var tile = radiationLayer.GetTile(positionInt);
 
-        //increase radiation level
+        // Increase radiation level
         if (tile == null)
         {
             radiationLayer.SetTile(positionInt, radiation1);
@@ -43,9 +45,14 @@ public class OnEnemyDeath : MonoBehaviour
         {
             radiationLayer.SetTile(positionInt, radiation5);
         }
+
+        // Add 5 EvoPoints when the enemy dies
+        if (evoPointManager != null)
+        {
+            evoPointManager.AddEvoPoints(1f);
+        }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         radiationLayer = GameObject.FindGameObjectWithTag("Radiation").GetComponent<Tilemap>();
@@ -56,11 +63,17 @@ public class OnEnemyDeath : MonoBehaviour
         radiation3 = map.radiationTiles[2];
         radiation4 = map.radiationTiles[3];
         radiation5 = map.radiationTiles[4];
+
+        // Find the EvoPointManager in the scene
+        evoPointManager = FindObjectOfType<EvoPointManager>();
+        if (evoPointManager == null)
+        {
+            Debug.LogWarning("EvoPointManager not found in the scene!");
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Optional: Any additional logic can go here
     }
 }
