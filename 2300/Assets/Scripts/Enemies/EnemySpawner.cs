@@ -19,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
     private GameObject highestWeightEnemyPrefab; // fallback enemy to spawn when weights don't add up to < 1
 
     public int spawnAmount = 5; // starting amount of enemies spawned
+    public int spawnCap = 150;
     [Tooltip("By what percent do you want the amount of enemies to increase each wave?"),Range(0f,2f)]
     public float spawnIncrease = 0.1f;
     private float _spawnAmount; // actual amount spawned
@@ -101,6 +102,7 @@ public class EnemySpawner : MonoBehaviour
                 var inactiveEnemy = enemyObjects.Find(i => i.activeInHierarchy == false && i.name.Equals($"{enemyPrefab.name}(Clone)")); // check if there are any enemy objects that are already inactive.
                 if (inactiveEnemy == null) // if there are no inactive gameobjecst then create a new gameobject
                 {
+                    if (enemyObjects.Count + 1 > spawnCap) return;
                     var enemy = Instantiate(enemyPrefab, player.position + c, player.rotation);
                     enemyObjects.Add(enemy);
                 }

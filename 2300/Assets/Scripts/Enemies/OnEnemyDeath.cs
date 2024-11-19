@@ -71,9 +71,4 @@ public class OnEnemyDeath : MonoBehaviour
             Debug.LogWarning("EvoPointManager not found in the scene!");
         }
     }
-
-    void Update()
-    {
-        // Optional: Any additional logic can go here
-    }
 }

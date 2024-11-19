@@ -490,13 +490,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies:
-  - weight: 0.71
+  - weight: 0.735
     prefab: {fileID: 9115828920587385344, guid: a9701b0694fd88847924283251d1e67a, type: 3}
-  - weight: 0.16
+  - weight: 0.085
     prefab: {fileID: 8832311556716205467, guid: ff760fdbbcd42124785662c982c30c23, type: 3}
-  spawnAmount: 10
+  spawnAmount: 8
   spawnIncrease: 0.001
-  timeToSpawn: 2.5
+  timeToSpawn: 3
   spawnRadius: 15
   spawnLeniency: 12
 --- !u!4 &194972024
@@ -531,7 +531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &201494695
 RectTransform:
   m_ObjectHideFlags: 0

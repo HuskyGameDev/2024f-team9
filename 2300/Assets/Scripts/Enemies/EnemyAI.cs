@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour
     public float speed; // how fast does the enemy move.
     [Min(0), Tooltip("How far from the player should the enemy stand? \n(0: 0 units away, 1:1 units away\n\nNote that if you set (playerCrowding > hitbox) there is a chance the hitboxes will never align and the player would never actually take damage willingly")]
     public float playerCrowding = 0.5f;
+    public float enemyCrowding = .2f;
 
 
     [Header("Attack")]
@@ -66,7 +67,18 @@ public class EnemyAI : MonoBehaviour
         
         if(target == player.transform)
         {
+            Vector3 offset = Vector2.zero;
+            var results = Physics2D.OverlapCircleAll(transform.position, enemyCrowding, LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer)));
+            if (results.Length > 0)
+            {
+                foreach (var collider in results)
+                {
+                    var coldir = transform.position- collider.transform.position;
+                    offset += coldir.normalized * enemyCrowding;
+                }
+            }
             var dir = (target.position - transform.position) + ((transform.position - target.position).normalized * playerCrowding); // direction to player + minor offset
+            transform.Translate(offset * Time.deltaTime);
             rb.velocity = dir.normalized * speed;
         }
         else

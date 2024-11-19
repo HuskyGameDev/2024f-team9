@@ -41,12 +41,12 @@ public class bulletScript : MonoBehaviour
     {
         if (collision.CompareTag("Enemy")) 
         {
-
             // Apply lifesteal
             if (fireRateModifier != null && healthManager != null)
             {
                 healthManager.Heal(fireRateModifier.lifestealAmount);
             }
+            //Destroy(gameObject);
         }
 
     }    
