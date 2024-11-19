@@ -23,7 +23,7 @@ public class EvoPointManager : MonoBehaviour
         evoPointBar.fillAmount = evoPoints / maxEvoPoints;
 
         // Check if the EvoPoint bar is full
-        if (evoPoints >= maxEvoPoints)
+        if (evoPoints >= maxEvoPoints && !powerUpsMenu.activeInHierarchy)
         {
             OnEvoPointBarFull();
         }
@@ -60,7 +60,7 @@ public class EvoPointManager : MonoBehaviour
         {
             powerUpsMenu.SetActive(true); // Show the Power-Ups menu
         }
-        Debug.Log("EvoPoints are full! Power-Ups menu opened.");
+        //Debug.Log("EvoPoints are full! Power-Ups menu opened.");
     }
 
     public void ClosePowerUpsMenu()

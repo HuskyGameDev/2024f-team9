@@ -300,7 +300,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6b96747ccfecf254bb6fefc74164e466, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 2510418677236480638}
   - component: {fileID: 5271119898329381259}
   - component: {fileID: 8194615651758428437}
+  - component: {fileID: 3418700931769063993}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -492,7 +493,7 @@ MonoBehaviour:
   bullet: {fileID: 6433467547778207313, guid: 9a2f3dec3c7723e4fb52df39e3ddfabd, type: 3}
   bulletTransform: {fileID: 1203036664632906242}
   canFire: 0
-  timeBetweenFiring: 0.2
+  timeBetweenFiring: 0.3
 --- !u!82 &8194615651758428437
 AudioSource:
   m_ObjectHideFlags: 0
@@ -504,7 +505,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bc1487529c14d5c4a8589fdb8049e422, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -589,6 +590,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3418700931769063993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6846902958476617607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be671362d11e1eb469443df5b02bb2ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingScript: {fileID: 5271119898329381259}
+  healthManager: {fileID: 0}
+  fireRate: -0.01
+  minFireRate: 0.1
+  lifestealAmount: 0
+  lifestealRate: 0.01
+  newLifestealAmount: 0
+  txt_fireRate: {fileID: 0}
+  txt_lifesteal: {fileID: 0}
 --- !u!1 &8844320754472433597
 GameObject:
   m_ObjectHideFlags: 0
