@@ -1561,10 +1561,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1138443464}
     - target: {fileID: 3418700931769063993, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
-      propertyPath: lifestealRate
-      value: 0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 3418700931769063993, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
       propertyPath: txt_lifesteal
       value: 
       objectReference: {fileID: 1328870535}

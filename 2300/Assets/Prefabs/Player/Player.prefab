@@ -604,10 +604,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingScript: {fileID: 5271119898329381259}
   healthManager: {fileID: 0}
-  fireRate: -0.01
+  fireRate: -0.02
   minFireRate: 0.1
   lifestealAmount: 0
-  lifestealRate: 0.01
+  lifestealRate: 0.03
   newLifestealAmount: 0
   txt_fireRate: {fileID: 0}
   txt_lifesteal: {fileID: 0}
