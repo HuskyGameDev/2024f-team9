@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1932342050, guid: c93e56d07d0024841bbe6eb422335f2d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -197,9 +197,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  speed: 1
-  debugSelfDestruct: 1
   enemyHealth: {fileID: 3279351250241874220}
+  speed: 1
+  playerCrowding: 0.5
+  attackDamage: 2
+  attackDelay: 1
 --- !u!114 &3161800201236534239
 MonoBehaviour:
   m_ObjectHideFlags: 0

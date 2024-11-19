@@ -9,16 +9,19 @@ public class EnemyAI : MonoBehaviour
     public GameObject player; // store reference to player so you don't have to keep looking up the player.
 
     private Transform target; // target transform so the enemy can look at objects other than the player.
+    private Rigidbody2D rb;
+    private Animator anim;
+    public EnemyHealth enemyHealth;
 
+    [Header("Movement")]
     public float speed; // how fast does the enemy move.
     [Min(0), Tooltip("How far from the player should the enemy stand? \n(0: 0 units away, 1:1 units away\n\nNote that if you set (playerCrowding > hitbox) there is a chance the hitboxes will never align and the player would never actually take damage willingly")]
     public float playerCrowding = 0.5f;
 
-    private Rigidbody2D rb;
-    private Animator anim;
 
-    public bool debugSelfDestruct = true;
-    public EnemyHealth enemyHealth;
+    [Header("Attack")]
+    public float attackDamage;
+    public float attackDelay;
 
     private enum State { idle, runl, runr, runu, rund };
     private State state = State.idle;
@@ -47,7 +50,6 @@ public class EnemyAI : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private float kill = 0;
     // Update is called once per frame
     void Update()
     {
@@ -55,6 +57,8 @@ public class EnemyAI : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
+        if (!target) return;
 
         anim.SetInteger("state", (int)state);
         angleState((target.position - transform.position).normalized);
@@ -134,6 +138,20 @@ public class EnemyAI : MonoBehaviour
                 target = closePortal;
             else // otherwise you should just look to chase the player.
                 target = player.transform;
+        }
+    }
+
+    private float _damageTime=0;
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            _damageTime += Time.deltaTime;
+            if(_damageTime >= attackDelay)
+            {
+                FindFirstObjectByType<HealthManager>().TakeDamage(attackDamage);
+                _damageTime = 0;
+            }
         }
     }
 }
