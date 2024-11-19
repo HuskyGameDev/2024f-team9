@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class bulletScript : MonoBehaviour
 {
+    public FireRateModifier fireRateModifier;
+    public HealthManager healthManager;
     private Vector3 mousePos;
     private Camera mainCam;
     private Rigidbody2D rb;
+    
     public float force;
     // Start is called before the first frame update
     void Start()
@@ -17,6 +20,8 @@ public class bulletScript : MonoBehaviour
         Vector3 direction = mousePos - transform.position;
         rb.velocity = new Vector2(direction.x , direction.y).normalized * force;
         StartCoroutine(DecayAfter(force));
+        fireRateModifier = FindFirstObjectByType<FireRateModifier>();
+        healthManager = FindFirstObjectByType<HealthManager>();
     }
 
     private IEnumerator DecayAfter(float sec)
@@ -31,4 +36,19 @@ public class bulletScript : MonoBehaviour
     {
         
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy")) 
+        {
+
+            // Apply lifesteal
+            if (fireRateModifier != null && healthManager != null)
+            {
+                healthManager.Heal(fireRateModifier.lifestealAmount);
+            }
+        }
+
+    }    
+
 }

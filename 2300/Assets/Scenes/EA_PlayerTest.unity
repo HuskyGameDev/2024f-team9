@@ -784,14 +784,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1800276349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f60413752d9b1e0428d737a4e68ba6c2, type: 3}
+  m_Script: {fileID: 11500000, guid: c75ca32cfc0410042b559cf58f132e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootSound: {fileID: 1800276352}
-  bullet: {fileID: 6433467547778207313, guid: 9a2f3dec3c7723e4fb52df39e3ddfabd, type: 3}
-  bulletTransform: {fileID: 809478557}
+  shootSound: {fileID: 0}
+  bullet: {fileID: 0}
+  bulletTransform: {fileID: 0}
   canFire: 0
-  timeBetweenFiring: 0.1
+  timeBetweenFiring: 0
 --- !u!82 &1800276352
 AudioSource:
   m_ObjectHideFlags: 0
@@ -901,6 +901,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingScript: {fileID: 1800276351}
+  healthManager: {fileID: 0}
+  lifestealAmount: 0
 --- !u!1001 &7238755098720016879
 PrefabInstance:
   m_ObjectHideFlags: 0
