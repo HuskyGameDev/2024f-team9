@@ -547,11 +547,6 @@ Transform:
   - {fileID: 1967268808}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &276425913 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6846902958476617607, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
-  m_PrefabInstance: {fileID: 1145141043}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &373752020
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,11 +938,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5846570697323327598, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
   m_PrefabInstance: {fileID: 1145141043}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1128555357 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8844320754472433597, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
-  m_PrefabInstance: {fileID: 1145141043}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1138443463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,26 +1037,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6330166701803384225, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
-      propertyPath: m_Layer
-      value: 27
-      objectReference: {fileID: 0}
     - target: {fileID: 7855946311393998037, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
       propertyPath: cam
       value: 
       objectReference: {fileID: 1926559990}
-    - target: {fileID: 7855946311393998037, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
-      propertyPath: gun
-      value: 
-      objectReference: {fileID: 276425913}
-    - target: {fileID: 7855946311393998037, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
-      propertyPath: crosshair
-      value: 
-      objectReference: {fileID: 1128555357}
-    - target: {fileID: 7855946311393998037, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
-      propertyPath: playerGFX
-      value: 
-      objectReference: {fileID: 1599011178}
     - target: {fileID: 7855946311393998037, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
       propertyPath: healthManager
       value: 
@@ -1614,11 +1588,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!1 &1599011178 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4985707413301957973, guid: 402fea23972d9f74280a2cc98e098f3f, type: 3}
-  m_PrefabInstance: {fileID: 1145141043}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1698565326
 GameObject:
   m_ObjectHideFlags: 0
@@ -1789,7 +1758,7 @@ GameObject:
   - component: {fileID: 1926559988}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
