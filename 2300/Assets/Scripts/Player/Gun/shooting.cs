@@ -13,10 +13,12 @@ public class shooting : MonoBehaviour
     public bool canFire;
     private float timer;
     public float timeBetweenFiring;
+    private SpriteRenderer rend;
     // Start is called before the first frame update
     void Start()
     {
        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+       rend = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -34,8 +36,11 @@ public class shooting : MonoBehaviour
 
         if( Input.GetMouseButton(0) && canFire){
             canFire = false;
-            Instantiate(bullet, bulletTransform.position, Quaternion.identity);
-                shootSound.Play();
+            GameObject newBullet = Instantiate(bullet, bulletTransform.position, Quaternion.identity);
+            shootSound.Play();
+            int spawn = rend.sortingOrder;
+            SpriteRenderer bulletRenderer = newBullet.GetComponent<SpriteRenderer>();
+            bulletRenderer.sortingOrder = spawn + 1;
         }
     }
 }

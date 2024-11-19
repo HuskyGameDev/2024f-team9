@@ -18,9 +18,11 @@ public class EnemyAI : MonoBehaviour
     private Animator anim;
 
     public bool debugSelfDestruct = true;
+    public EnemyHealth enemyHealth;
 
     private enum State { idle, runl, runr, runu, rund };
     private State state = State.idle;
+
 
     private void OnEnable()
     {
@@ -49,14 +51,9 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (debugSelfDestruct)
+        if (enemyHealth.health <= 0)
         {
-            if (kill > 10)
-            {
-                kill = 0;
-                gameObject.SetActive(false); // disable the gameobject instead of destroying it so we can reuse the enemy and improve performance.
-            }
-            kill += Time.deltaTime;
+            gameObject.SetActive(false);
         }
 
         anim.SetInteger("state", (int)state);
